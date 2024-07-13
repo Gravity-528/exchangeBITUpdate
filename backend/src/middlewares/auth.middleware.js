@@ -51,7 +51,7 @@ const adminVerify=asyncHandler(async(req,res,next)=>{
     const admin = await Admin.findById(decodedToken?._id).select("-password -refreshToken");
     
 
-    if (!user) {
+    if (!admin) {
       throw new ApiError(401, "Invalid Access Token");
     }
 

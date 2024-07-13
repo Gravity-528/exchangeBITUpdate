@@ -128,6 +128,36 @@ const UserMenu = () => {
             </Link>
           </li>
           <li className="nav-menu-item">
+            <Link
+              to="/yourqr"
+              className={`nav-menu-link flex items-center ${
+                location.pathname === "/yourqr" ? "active" : ""
+              }`}
+            >
+              <span className="nav-link-icon flex items-center justify-center">
+                <i className="bi bi-box-seam"></i>
+              </span>
+              <span className="text-base font-semibold nav-link-text no-wrap">
+                Your Qr Code
+              </span>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
+            <Link
+              to="/attend"
+              className={`nav-menu-link flex items-center ${
+                location.pathname === "/attend" ? "active" : ""
+              }`}
+            >
+              <span className="nav-link-icon flex items-center justify-center">
+                <i className="bi bi-box-seam"></i>
+              </span>
+              <span className="text-base font-semibold nav-link-text no-wrap">
+                Your Attendence
+              </span>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
             <Link to="/" className={`nav-menu-link flex items-center`}>
               <span className="nav-link-icon flex items-center justify-center">
                 <i className="bi bi-box-arrow-right"></i>

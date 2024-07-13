@@ -23,4 +23,10 @@ app.use("/api/v1/users", userRoute);
 import chatRoutes from './Routes/chat.routes.js';
 app.use('/api/v1/chats', chatRoutes);
 
+import adminRoute from './Routes/admin.route.js';
+app.use('/api/v1/admin',adminRoute);
+
+import attendRoute from './Routes/attendence.routes.js'
+app.use('/api/v1/attendence',attendRoute);
+
 export { app };

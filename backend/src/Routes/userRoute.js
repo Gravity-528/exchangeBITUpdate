@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { FindUserById, RemoveProductWish, LoginUser, LogoutUser, refreshAccesToken, registerUser,RetrieveUser,SetProductWish,WishListFetch } from "../controllers/user.controller.js";
+import { FindUserById, RemoveProductWish, LoginUser, LogoutUser, refreshAccesToken, registerUser,RetrieveUser,SetProductWish,WishListFetch, YourUser } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router=Router();
@@ -15,5 +15,6 @@ router.route("/logout").post(verifyJWT,LogoutUser);
 router.route("/protectedRoute").post(verifyJWT,RetrieveUser);
 router.route("/RefreshToken").post(refreshAccesToken);
 router.route("/WishList/:id").put(verifyJWT, RemoveProductWish);
+router.route("/your").get(verifyJWT,YourUser);
 
 export default router;

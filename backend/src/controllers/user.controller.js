@@ -2,6 +2,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
 import { User } from "../models/user.model.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
+import QRCode from 'qrcode';
 
 const generateAccessAndRefreshTokens= async(userid)=>{
     try {
@@ -46,10 +47,12 @@ const registerUser=asyncHandler(async(req,res)=>{
     }
 
     //if user doesnt exist update it in database
+    const qrCodeDataUrl = await QRCode.toDataURL(username);
     const user=await User.create({
         username,
         password,
-        email
+        email,
+        qrcode:qrCodeDataUrl
     });
 
     const check=await User.findById(user._id).select("-password -refreshToken");
@@ -289,6 +292,22 @@ const FindUserById=asyncHandler(async(req,res)=>{
     }
 })
 
+const YourUser=asyncHandler(async(req,res)=>{
+  try {
+    const userid=req.user._id
 
-export {RemoveProductWish, registerUser,LoginUser,LogoutUser,refreshAccesToken,editUser,WishListFetch,RetrieveUser,SetProductWish,FindUserById}//,ExtractCart}
+    const your=await User.findById(userid);
+    if(!your){
+        throw new ApiError("user does not exist");
+    }
+    console.log(your);
+    res.status(201).json({success:true,data:your});
+  } catch (error) {
+     console.log(error);
+     throw new ApiError("error in getting user");
+  }
+})
+
+
+export {RemoveProductWish, registerUser,LoginUser,LogoutUser,refreshAccesToken,editUser,WishListFetch,RetrieveUser,SetProductWish,FindUserById,YourUser}//,ExtractCart}
 

@@ -1,0 +1,174 @@
+// import React from 'react'
+
+// const AdminSignUp = () => {
+//   return (
+//     <div>AdminSignUp</div>
+//   )
+// }
+
+// export default AdminSignUp
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { FormGridWrapper, FormTitle } from '../../styles/form_grid';
+import { Container } from '../../styles/styles';
+import { staticImages } from '../../utils/images';
+import { FormElement, Input } from '../../styles/form';
+import PasswordInput from '../../components/auth/PasswordInput';
+import { Link, useNavigate } from 'react-router-dom';
+import { BaseButtonBlack } from '../../styles/button';
+import axios from 'axios';
+import LoadingScreen from '../../components/loadingScreen/LoadingScreen';
+
+const SignUpScreenWrapper = styled.section`
+  form {
+    margin-top: 40px;
+    .form-elem-text {
+      margin-top: -16px;
+      display: block;
+    }
+  }
+
+  .text-space {
+    margin: 0 4px;
+  }
+`;
+
+const AdminSignUp = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    email: '',
+    password: ''
+  });
+  const [isLoading, setIsLoading] = useState(true); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true); 
+
+    try {
+      const response = await axios.post('/api/v1/users/register', formData);
+      alert(response.data.message);
+      navigate('/sign_in');
+    } catch (error) {
+      alert(error.response.data.message);
+    } finally {
+      setIsSubmitting(false); 
+    }
+  };
+
+  return (
+    <SignUpScreenWrapper>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <FormGridWrapper>
+          <Container>
+            <div className="form-grid-content">
+              <div className="form-grid-left">
+                <img src={staticImages.hostel2} className="object-fit-cover" alt="" />
+              </div>
+              <div className="form-grid-right">
+                <FormTitle>
+                  <h3>Admin Sign Up</h3>
+                  <p className="text-base">
+                    Sign up for free to access a vast range of products
+                  </p>
+                </FormTitle>
+                <form onSubmit={handleSubmit}>
+                  <FormElement>
+                    <label htmlFor="name" className="form-elem-label">
+                      Name
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder=""
+                      name="name"
+                      className="form-elem-control"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span className="form-elem-error">
+                      *Required
+                    </span>
+                  </FormElement>
+                  <FormElement>
+                    <label htmlFor="username" className="form-elem-label">
+                      Username
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder=""
+                      name="username"
+                      className="form-elem-control"
+                      value={formData.username}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span className="form-elem-error">
+                      *Required
+                    </span>
+                  </FormElement>
+                  <FormElement>
+                    <label htmlFor="email" className="form-elem-label">
+                      Email Id
+                    </label>
+                    <Input
+                      type="email"
+                      placeholder=""
+                      name="email"
+                      className="form-elem-control"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span className="form-elem-error">
+                      *Required
+                    </span>
+                  </FormElement>
+                  <PasswordInput
+                    fieldName="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <span className="form-elem-text font-medium">
+                    Use 8 or more characters with a mix of letters, numbers &
+                    symbols
+                  </span>
+                  <BaseButtonBlack type="submit" className="form-submit-btn" disabled={isSubmitting}>
+                    {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+                  </BaseButtonBlack>
+                </form>
+                <p className="flex flex-wrap account-rel-text">
+                  Already have an account?
+                  <Link to="/adminSign_in" className="font-medium">
+                    Log in
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </Container>
+        </FormGridWrapper>
+      )}
+    </SignUpScreenWrapper>
+  );
+};
+
+export default AdminSignUp;

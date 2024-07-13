@@ -44,6 +44,10 @@ const UserSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Chat'
     }],
+    qrcode:{
+        type:String,
+        required:true
+    }
     // outgoingRequests: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Request'

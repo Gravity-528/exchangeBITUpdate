@@ -16,6 +16,11 @@ const navMenuData = [
     menuLink: "/chats",
     menuText: "Chats",
   },
+  {
+    id:"nav-menu-5",
+    menuLink:"/adminSign_in",
+    menuText:"Admin",
+  }
 ];
 
 const sideMenuData = [
